@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :reviews
     # resources :reviews, only: [:create, :update, :index, :show, :destroy]
   # resources :eletronics, only: [:index, :show]
 

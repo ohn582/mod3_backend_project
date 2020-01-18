@@ -1,35 +1,51 @@
 class ReviewsController < ApplicationController
-  
-    # Collecting all list of reviews
-    def index
-        render json: Review.all
+  before_action :set_review, only: [:show, :update, :destroy]
+
+  # GET /reviews
+  def index
+    @reviews = Review.all
+
+    render json: @reviews
+  end
+
+  # GET /reviews/1
+  def show
+    render json: @review
+  end
+
+  # POST /reviews
+  def create
+    @review = Review.new(review_params)
+
+    if @review.save
+      render json: @review, status: :created, location: @review
+    else
+      render json: @review.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /reviews/1
+  def update
+    if @review.update(review_params)
+      render json: @review
+    else
+      render json: @review.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /reviews/1
+  def destroy
+    @review.destroy
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_review
+      @review = Review.find(params[:id])
     end
 
-    #rendering reviews
-    def show
-        render json: Review.find(params[:id])
-    end
-
-    def create
-        @review = Review.create(review_params)
-        if @review.save
-            render json: @review
-        end
-    end
-
-    def update
-        @review = Review.find(params[:id])
-        @review.update(review_params)
-        render json: @review
-    end 
-
-    def destroy
-        @review = Review.find(params[:id])
-        @review.destroy
+    # Only allow a trusted parameter "white list" through.
+    def review_params
+      params.require(:review).permit(:eletronic_id, :name, :content)
     end
 end
-
-private
-    def review_params 
-        params.require(:review).permit(:name, :content, :eletronic_id)
-    end
