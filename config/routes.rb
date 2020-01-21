@@ -11,5 +11,4 @@ Rails.application.routes.draw do
 
   get '/eletronics', to: "eletronics#index"
   get '/eletronics/:id', to: "eletronics#show"
-  # post '/eletronics', to: "eletronics#create"
 end
